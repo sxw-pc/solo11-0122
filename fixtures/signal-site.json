@@ -1,0 +1,17 @@
+{
+  "site_id": "crossing-R1",
+  "work": {"source_id": "road-1", "revision": 1, "segment": "R1"},
+  "slot_minutes": 5,
+  "service_definition": "net-after-fixed-all-red-clearance; no extra switch penalty",
+  "vehicle_service_per_v_slot": 4,
+  "ped_service_per_p_slot": 2,
+  "max_vehicle_queue": 8,
+  "max_ped_queue": 4,
+  "slots": [
+    {"id": "T1", "vehicle_arrivals": 4, "ped_arrivals": 1},
+    {"id": "T2", "vehicle_arrivals": 4, "ped_arrivals": 0},
+    {"id": "T3", "vehicle_arrivals": 4, "ped_arrivals": 0},
+    {"id": "T4", "vehicle_arrivals": 0, "ped_arrivals": 1},
+    {"id": "T5", "vehicle_arrivals": 0, "ped_arrivals": 0}
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "run_id": "phase-manual-1",
+  "site_id": "crossing-R1",
+  "phases": ["V", "V", "V", "P", "P"]
+}

@@ -13,6 +13,8 @@ def main():
     i=sub.add_parser("init");i.add_argument("--db",required=True)
     for name in ("adopt","assess","settle"):
         cmd=sub.add_parser(name);cmd.add_argument("--db",required=True);cmd.add_argument("--input",required=True)
+    for name in ("signal-register","signal-manual"):
+        cmd=sub.add_parser(name);cmd.add_argument("--db",required=True);cmd.add_argument("--input",required=True)
     r=sub.add_parser("report");r.add_argument("--db",required=True);r.add_argument("--out")
     d=sub.add_parser("demo");d.add_argument("--workdir")
     dc=sub.add_parser("detour-config");dc.add_argument("--db",required=True);dc.add_argument("--id",required=True);dc.add_argument("--segment",required=True);dc.add_argument("--capacity",required=True,type=int)
@@ -24,6 +26,12 @@ def main():
     elif a.command=="adopt":print(json.dumps(adopt(a.db,a.input),ensure_ascii=False))
     elif a.command=="assess":print(json.dumps(assess(a.db,a.input),ensure_ascii=False))
     elif a.command=="settle":print(json.dumps(settle(a.db,a.input),ensure_ascii=False))
+    elif a.command=="signal-register":
+        from .signals import register
+        print(register(a.db,a.input))
+    elif a.command=="signal-manual":
+        from .signals import record_manual
+        print(json.dumps(record_manual(a.db,a.input),ensure_ascii=False))
     elif a.command=="report":print(json.dumps(report(a.db,a.out),ensure_ascii=False))
     elif a.command=="detour-config":
         from .detour import configure

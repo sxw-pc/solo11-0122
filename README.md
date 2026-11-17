@@ -1,5 +1,7 @@
 # 道路占掘通行裁定台
 
+合成施工口临时信号可用 `signal-register` 登记逐槽车辆/行人到达及相位净服务量，再用 `signal-manual` 评估人工相位计划。`roadcase/signals.py` 保存来源原文与逐槽队列、车辆等待量、行人最坏等待和相位切换次数，目前不求全局最优。示例：先 `python -m roadcase adopt --db state.db --input fixtures/road_normal.json`，再 `python -m roadcase signal-register --db state.db --input fixtures/signal-site.json`，最后 `python -m roadcase signal-manual --db state.db --input fixtures/signal-manual.json`。
+
 为市政交通协同员与公共出行服务提供离线合成公开来源的时效和证据核验。核心结果：判定指定时段路线是否可达并核验绕行告知。公开文本经来源身份和版本采信后，分别驱动业务案件与履约核验；这三个子系统有独立业务实体、状态和 CLI 入口。
 
 ## 运行
