@@ -1,0 +1,20 @@
+{
+  "plan_id": "excavation-E1",
+  "work": {"source_id": "road-1", "revision": 1, "segment": "R1"},
+  "coordinate_system": "synthetic-local-metres",
+  "alignments": [
+    {"id": "original", "polyline": [[0.0, 0.0], [10.0, 0.0]], "depth_low": 1.2, "depth_high": 1.8},
+    {"id": "rerouted", "polyline": [[0.0, -0.4], [10.0, -0.4]], "depth_low": 1.2, "depth_high": 1.8}
+  ],
+  "utilities": [
+    {"id": "gas-U1", "polyline": [[0.0, 1.0], [10.0, 1.0]], "depth_low": 1.2, "depth_high": 1.8, "outer_radius": 0.1, "horizontal_uncertainty": 0.4, "vertical_uncertainty": 0.1},
+    {"id": "drain-U2", "polyline": [[5.0, -1.0], [5.0, 2.0]], "depth_low": 2.8, "depth_high": 3.0, "outer_radius": 0.1, "horizontal_uncertainty": 0.1, "vertical_uncertainty": 0.1}
+  ],
+  "methods": [
+    {"id": "machine", "operation": "full_excavation", "trench_width": 0.4, "horizontal_error": 0.1, "vertical_error": 0.1, "required_clearance": 0.5},
+    {"id": "vacuum", "operation": "exploratory_pothole", "trench_width": 0.2, "horizontal_error": 0.05, "vertical_error": 0.05, "required_clearance": 0.15}
+  ],
+  "verification_options": [
+    {"id": "pothole-gas-U1", "utility_id": "gas-U1", "new_horizontal_uncertainty": 0.05, "evidence": "synthetic-survey-only"}
+  ]
+}
