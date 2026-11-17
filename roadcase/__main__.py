@@ -15,6 +15,9 @@ def main():
         cmd=sub.add_parser(name);cmd.add_argument("--db",required=True);cmd.add_argument("--input",required=True)
     r=sub.add_parser("report");r.add_argument("--db",required=True);r.add_argument("--out")
     d=sub.add_parser("demo");d.add_argument("--workdir")
+    dc=sub.add_parser("detour-config");dc.add_argument("--db",required=True);dc.add_argument("--id",required=True);dc.add_argument("--segment",required=True);dc.add_argument("--capacity",required=True,type=int)
+    dr=sub.add_parser("detour-reserve");dr.add_argument("--db",required=True);dr.add_argument("--id",required=True);dr.add_argument("--pool",required=True);dr.add_argument("--source",required=True);dr.add_argument("--journey",required=True);dr.add_argument("--flow",required=True,type=int)
+    dl=sub.add_parser("detour-release");dl.add_argument("--db",required=True);dl.add_argument("--id",required=True)
     a=p.parse_args()
     if a.command=="init":
         db=connect(a.db);db.close();print(a.db)
@@ -22,6 +25,15 @@ def main():
     elif a.command=="assess":print(json.dumps(assess(a.db,a.input),ensure_ascii=False))
     elif a.command=="settle":print(json.dumps(settle(a.db,a.input),ensure_ascii=False))
     elif a.command=="report":print(json.dumps(report(a.db,a.out),ensure_ascii=False))
+    elif a.command=="detour-config":
+        from .detour import configure
+        print(configure(a.db,a.id,a.segment,a.capacity))
+    elif a.command=="detour-reserve":
+        from .detour import reserve
+        print(reserve(a.db,a.id,a.pool,a.source,a.journey,a.flow))
+    elif a.command=="detour-release":
+        from .detour import release
+        print(release(a.db,a.id))
     else:
         work=Path(a.workdir or tempfile.mkdtemp(prefix="source-case-"));work.mkdir(parents=True,exist_ok=True)
         fixture=Path(__file__).resolve().parent.parent/"fixtures"

@@ -59,4 +59,6 @@ def _stale(db,source_id):
     db.execute(f"UPDATE {t['obligation']} SET state='stale' WHERE assessment_id IN "
                f"(SELECT a.id FROM {t['assessment']} a JOIN {t['case']} c ON c.id=a.case_id WHERE c.source_id=?)",
                (source_id,))
+    if db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='detour_hold'").fetchone():
+        db.execute("UPDATE detour_hold SET state='stale' WHERE source_id=? AND state IN ('reserved','waiting')",(source_id,))
 

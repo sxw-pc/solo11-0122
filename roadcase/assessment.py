@@ -30,6 +30,12 @@ def assess(db_path,input_path):
         elif not (utc(revision["effective_from"])<=moment<utc(revision["effective_until"])):
             decision={"state":"unaffected","outcome":"outside_effective_window","detail":{"reason":"time_window"},"obligations":[]}
         else:
+            from .detour import reserved_flow
+            has_pool=db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='detour_pool'").fetchone()
+            if has_pool and db.execute('SELECT 1 FROM detour_pool').fetchone():
+                facts=doc['facts'];detour=facts.get('detour',{})
+                flow=reserved_flow(db,detour.get('id'),doc['source_id'],revision['revision'],doc['case_id'])
+                doc={**doc,'facts':{**facts,'detour':{**detour,'capacity':flow}}}
             decision=assess_case(doc, json.loads(revision["payload"]))
         if not isinstance(decision.get("obligations"),list):raise ValueError("policy_obligations_required")
         cur=db.execute(f"INSERT INTO {t['assessment']}(case_id,source_revision,state,outcome,detail) VALUES (?,?,?,?,?)",

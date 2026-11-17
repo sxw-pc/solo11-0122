@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 from .store import connect
-from .policy import TABLES
+from .policy import TABLES,EXTRA_TABLES
 
 def report(db_path,out=None):
     db=connect(db_path);t=TABLES
@@ -24,8 +24,11 @@ def report(db_path,out=None):
                       "obligations":obligations})
     evidence=[dict(x) for x in db.execute("SELECT source_id,revision,digest,captured_at FROM source_event ORDER BY source_id,revision")]
     conflicts=[dict(x) for x in db.execute("SELECT source_id,revision,digest,reason FROM source_conflict ORDER BY id")]
+    auxiliary={name:[dict(x) for x in db.execute(f"SELECT * FROM {name} ORDER BY 1")]
+               for name in EXTRA_TABLES if db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?",(name,)).fetchone()}
     db.close()
-    result={"notices":notices,"cases":cases,"source_evidence":evidence,"source_conflicts":conflicts}
+    result={"notices":notices,"cases":cases,"source_evidence":evidence,"source_conflicts":conflicts,
+            "auxiliary":auxiliary}
     if out:
         target=Path(out);target.parent.mkdir(parents=True,exist_ok=True)
         temp=target.with_name(target.name+".pending")

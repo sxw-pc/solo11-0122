@@ -4,6 +4,7 @@ from roadcase.adoption import adopt
 from roadcase.assessment import assess
 from roadcase.settlement import settle
 from roadcase.report import report
+from roadcase.detour import configure,reserve,release
 
 FIX=Path(__file__).resolve().parent.parent/'fixtures'
 
@@ -49,3 +50,30 @@ def test_partial_audience_and_late_delivery_are_distinct(tmp_path):
     result=settle(db,late)
     assert result['status']=='overdue'
     assert result['obligations'][0]['late_amount']==1
+
+def test_detour_capacity_competition_changes_route_and_notice(tmp_path):
+    normal=json.loads((FIX/'detour_normal.json').read_text(encoding='utf-8'))
+    conflict=json.loads((FIX/'detour_conflict.json').read_text(encoding='utf-8'))
+    db=tmp_path/'state.db';adopt(db,FIX/'road_normal.json')
+    configure(db,**normal['pool'])
+    assert reserve(db,**normal['first'])['state']=='reserved'
+    assert reserve(db,**conflict['second'])['state']=='waiting'
+    assert assess(db,FIX/'route_normal.json')['outcome']=='detour_required'
+    second=changed(tmp_path,'route_normal.json',lambda d:d.update(case_id='journey-2'))
+    assert assess(db,second)['outcome']=='no_viable_detour'
+    assert release(db,'H-1')['promoted']==['journey-2']
+    assert report(db)['cases'][1]['stale'] is True
+    reassessed=assess(db,second)
+    assert reassessed['outcome']=='detour_required'
+    assert reassessed['obligations'][0]['meta'].find('D1')>=0
+
+def test_work_revision_invalidates_old_detour_holds(tmp_path):
+    normal=json.loads((FIX/'detour_normal.json').read_text(encoding='utf-8'))
+    db=tmp_path/'state.db';adopt(db,FIX/'road_normal.json');configure(db,**normal['pool'])
+    reserve(db,**normal['first'])
+    revision=changed(tmp_path,'road_normal.json',lambda d:d.update(revision=2))
+    adopt(db,revision)
+    from roadcase.store import connect
+    con=connect(db)
+    assert con.execute("SELECT state FROM detour_hold WHERE id='H-1'").fetchone()[0]=='stale'
+    con.close()
