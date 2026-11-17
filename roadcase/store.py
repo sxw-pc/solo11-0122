@@ -16,6 +16,8 @@ def connect(path):
       PRIMARY KEY(source_id,revision));
     CREATE TABLE IF NOT EXISTS source_conflict(
       id INTEGER PRIMARY KEY, source_id TEXT, revision INTEGER, digest TEXT, reason TEXT);
+    CREATE TABLE IF NOT EXISTS corridor_contract(
+      id TEXT PRIMARY KEY, digest TEXT NOT NULL, payload BLOB NOT NULL);
     CREATE TABLE IF NOT EXISTS {t['notice']}(
       id TEXT PRIMARY KEY, current_revision INTEGER NOT NULL, state TEXT NOT NULL,
       changed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
