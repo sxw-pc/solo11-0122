@@ -18,6 +18,9 @@ def main():
     dc=sub.add_parser("detour-config");dc.add_argument("--db",required=True);dc.add_argument("--id",required=True);dc.add_argument("--segment",required=True);dc.add_argument("--capacity",required=True,type=int)
     dr=sub.add_parser("detour-reserve");dr.add_argument("--db",required=True);dr.add_argument("--id",required=True);dr.add_argument("--pool",required=True);dr.add_argument("--source",required=True);dr.add_argument("--journey",required=True);dr.add_argument("--flow",required=True,type=int)
     dl=sub.add_parser("detour-release");dl.add_argument("--db",required=True);dl.add_argument("--id",required=True)
+    for name in ("crew-shift","crew-scan"):
+        cmd=sub.add_parser(name);cmd.add_argument("--db",required=True);cmd.add_argument("--input",required=True)
+    cs=sub.add_parser("crew-summary");cs.add_argument("--db",required=True);cs.add_argument("--id",required=True)
     a=p.parse_args()
     if a.command=="init":
         db=connect(a.db);db.close();print(a.db)
@@ -34,6 +37,15 @@ def main():
     elif a.command=="detour-release":
         from .detour import release
         print(release(a.db,a.id))
+    elif a.command=="crew-shift":
+        from .crew import register_shift
+        print(register_shift(a.db,a.input))
+    elif a.command=="crew-scan":
+        from .crew import record_scan
+        print(record_scan(a.db,a.input))
+    elif a.command=="crew-summary":
+        from .crew import summary
+        print(summary(a.db,a.id))
     else:
         work=Path(a.workdir or tempfile.mkdtemp(prefix="source-case-"));work.mkdir(parents=True,exist_ok=True)
         fixture=Path(__file__).resolve().parent.parent/"fixtures"

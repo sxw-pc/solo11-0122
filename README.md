@@ -24,3 +24,7 @@ python -m pytest -q
 
 `detour-config` 登记绕行边容量，`detour-reserve` 为具体旅程预留流量；超额旅程持久进入 waiting，`detour-release` 释放后按序提升候选。此流程有独立的 `detour_pool` 与 `detour_hold`，不是路线报告的参数。通行推演读取同工区版本的真实预留：竞争失败使原本可绕行的旅程变为不可达，重新预留又会生成不同的告知义务；工区修订使旧预留失效。见 `fixtures/detour_normal.json` 和 `fixtures/detour_conflict.json`。
 
+## 工区门禁人员记录
+
+`crew-shift` 冻结已采信工区版本、作业时段、岗位要求和证件，`crew-scan` 保存独立门禁读卡事件及读卡时间误差；`crew-summary` 当前只按时间列出事件，不推断持续在场。合成样例位于 `fixtures/crew-*.json`。
+

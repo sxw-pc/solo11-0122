@@ -1,0 +1,7 @@
+{
+  "id":"shift-R1-01","source_id":"road-1","source_revision":1,
+  "shift_from":"2026-06-01T08:00:00Z","shift_until":"2026-06-01T12:00:00Z",
+  "active_work":[["2026-06-01T09:00:00Z","2026-06-01T09:55:00Z"],["2026-06-01T10:10:00Z","2026-06-01T11:00:00Z"]],
+  "required_roles":{"supervisor":1,"spotter":1},
+  "badges":[{"id":"A","role":"supervisor","valid_until":"2026-07-01T00:00:00Z"},{"id":"B","role":"spotter","valid_until":"2026-07-01T00:00:00Z"},{"id":"C","role":"supervisor","valid_until":"2026-07-01T00:00:00Z"}]
+}
