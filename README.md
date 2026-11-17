@@ -24,3 +24,7 @@ python -m pytest -q
 
 `detour-config` 登记绕行边容量，`detour-reserve` 为具体旅程预留流量；超额旅程持久进入 waiting，`detour-release` 释放后按序提升候选。此流程有独立的 `detour_pool` 与 `detour_hold`，不是路线报告的参数。通行推演读取同工区版本的真实预留：竞争失败使原本可绕行的旅程变为不可达，重新预留又会生成不同的告知义务；工区修订使旧预留失效。见 `fixtures/detour_normal.json` 和 `fixtures/detour_conflict.json`。
 
+## 开挖土方票据
+
+`spoil-open` 冻结采信工区版本与土方批次的声明量/去向；`spoil-ticket` 保存装车、暂存和入场的称重原始票据与父票据引用，`spoil-summary` 列出票据。当前尚未核对分装/合并的质量守恒与最终去向。合成样例为 `fixtures/spoil-lot.json`、`spoil-load.json`、`spoil-accept.json`。
+
