@@ -1,0 +1,8 @@
+{
+  "case_id": "journey-night",
+  "source_id": "road-1",
+  "at": "2026-06-01T22:30:00Z",
+  "facts": {"route": ["R1", "R2"], "flow": 20,
+    "detour": {"id": "D1", "capacity": 30},
+    "audiences": ["bus", "pedestrian"]}
+}

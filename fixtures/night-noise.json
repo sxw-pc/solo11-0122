@@ -1,0 +1,16 @@
+{
+  "session_id": "noise-N1",
+  "source_id": "road-1",
+  "revision": 1,
+  "receptors": [
+    {"id": "homes-A", "quiet_from": "2026-06-01T22:00:00Z", "quiet_until": "2026-06-02T06:00:00Z", "limit_db": "50.00"}
+  ],
+  "activities": [
+    {"id": "crew-A", "receptor": "homes-A", "starts": "2026-06-01T22:00:00Z", "ends": "2026-06-01T23:00:00Z", "level_db": "48.00", "shift_options": [], "barrier_options": []},
+    {"id": "crew-B", "receptor": "homes-A", "starts": "2026-06-01T22:00:00Z", "ends": "2026-06-01T23:00:00Z", "level_db": "48.00", "shift_options": [
+      {"id": "after-A", "starts": "2026-06-01T23:00:00Z", "ends": "2026-06-02T00:00:00Z"}
+    ], "barrier_options": [
+      {"id": "barrier-4db", "attenuation_db": "4.00", "starts": "2026-06-01T22:00:00Z", "ends": "2026-06-01T23:00:00Z"}
+    ]}
+  ]
+}
