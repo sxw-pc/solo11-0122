@@ -1,0 +1,30 @@
+{
+  "scan_id": "scan-road-8",
+  "tokens": [
+    {"id":"p1-01","page":1,"box":[0,0,20,10],"alternatives":[{"text":"公告编号","confidence":0.99}]},
+    {"id":"p1-02","page":1,"box":[25,0,55,10],"alternatives":[{"text":"road-ocr-8","confidence":0.99}]},
+    {"id":"p1-03","page":1,"box":[0,15,20,25],"alternatives":[{"text":"修订","confidence":0.99}]},
+    {"id":"p1-04","page":1,"box":[25,15,35,25],"alternatives":[{"text":"2","confidence":0.99}]},
+    {"id":"p1-05","page":1,"box":[0,30,20,40],"alternatives":[{"text":"发布","confidence":0.98}]},
+    {"id":"p1-06","page":1,"box":[25,30,75,40],"alternatives":[{"text":"2026-06-01T00:00:00Z","confidence":0.98}]},
+    {"id":"p1-07","page":1,"box":[0,45,20,55],"alternatives":[{"text":"起始","confidence":0.98}]},
+    {"id":"p1-08","page":1,"box":[25,45,75,55],"alternatives":[{"text":"2026-06-02T00:00:00Z","confidence":0.98}]},
+    {"id":"p1-09","page":1,"box":[0,60,20,70],"alternatives":[{"text":"终止","confidence":0.98}]},
+    {"id":"p1-10","page":1,"box":[25,60,75,70],"alternatives":[{"text":"2026-06-03T00:00:00Z","confidence":0.98}]},
+    {"id":"p1-11","page":1,"box":[0,75,80,85],"alternatives":[{"text":"R8 总车道 2，占道封闭","confidence":0.98}]},
+    {"id":"p2-01","page":2,"box":[0,0,20,10],"alternatives":[{"text":"路段","confidence":0.99}]},
+    {"id":"p2-02","page":2,"box":[25,0,45,10],"alternatives":[{"text":"总车道","confidence":0.99}]},
+    {"id":"p2-03","page":2,"box":[50,0,70,10],"alternatives":[{"text":"封闭","confidence":0.99}]},
+    {"id":"p2-04","page":2,"box":[75,0,95,10],"alternatives":[{"text":"剩余","confidence":0.99}]},
+    {"id":"p2-05","page":2,"box":[0,15,20,25],"alternatives":[{"text":"R8","confidence":0.99}]},
+    {"id":"p2-06","page":2,"box":[25,15,45,25],"alternatives":[{"text":"3","confidence":0.55},{"text":"2","confidence":0.45}]},
+    {"id":"p2-07","page":2,"box":[50,15,70,25],"alternatives":[{"text":"7","confidence":0.58},{"text":"1","confidence":0.42}]},
+    {"id":"p2-08","page":2,"box":[75,15,95,25],"alternatives":[{"text":"2","confidence":0.57},{"text":"1","confidence":0.43}]},
+    {"id":"p2-09","page":2,"box":[0,30,20,40],"alternatives":[{"text":"R9","confidence":0.99}]},
+    {"id":"p2-10","page":2,"box":[25,30,45,40],"alternatives":[{"text":"3","confidence":0.99}]},
+    {"id":"p2-11","page":2,"box":[50,30,70,40],"alternatives":[{"text":"2","confidence":0.99}]},
+    {"id":"p2-12","page":2,"box":[75,30,95,40],"alternatives":[{"text":"1","confidence":0.99}]},
+    {"id":"p2-13","page":2,"box":[0,45,35,55],"alternatives":[{"text":"机关 city","confidence":0.98}]},
+    {"id":"p2-14","page":2,"box":[40,45,95,55],"alternatives":[{"text":"剩余通行能力 20","confidence":0.98}]}
+  ]
+}

@@ -24,3 +24,7 @@ python -m pytest -q
 
 `detour-config` 登记绕行边容量，`detour-reserve` 为具体旅程预留流量；超额旅程持久进入 waiting，`detour-release` 释放后按序提升候选。此流程有独立的 `detour_pool` 与 `detour_hold`，不是路线报告的参数。通行推演读取同工区版本的真实预留：竞争失败使原本可绕行的旅程变为不可达，重新预留又会生成不同的告知义务；工区修订使旧预留失效。见 `fixtures/detour_normal.json` 和 `fixtures/detour_conflict.json`。
 
+## 本地 OCR 词框采集
+
+`ocr-register` 冻结一份本地 OCR 词框、候选文本与置信度，`ocr-preview` 当前只按页和坐标拼接最高置信词，不提取结构化工区公告。`fixtures/ocr-bulletin.json` 是跨页表格及歧义数字的可运行样例。
+

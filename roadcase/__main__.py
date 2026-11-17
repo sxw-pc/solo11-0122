@@ -18,6 +18,8 @@ def main():
     dc=sub.add_parser("detour-config");dc.add_argument("--db",required=True);dc.add_argument("--id",required=True);dc.add_argument("--segment",required=True);dc.add_argument("--capacity",required=True,type=int)
     dr=sub.add_parser("detour-reserve");dr.add_argument("--db",required=True);dr.add_argument("--id",required=True);dr.add_argument("--pool",required=True);dr.add_argument("--source",required=True);dr.add_argument("--journey",required=True);dr.add_argument("--flow",required=True,type=int)
     dl=sub.add_parser("detour-release");dl.add_argument("--db",required=True);dl.add_argument("--id",required=True)
+    oi=sub.add_parser("ocr-register");oi.add_argument("--db",required=True);oi.add_argument("--input",required=True)
+    op=sub.add_parser("ocr-preview");op.add_argument("--db",required=True);op.add_argument("--id",required=True)
     a=p.parse_args()
     if a.command=="init":
         db=connect(a.db);db.close();print(a.db)
@@ -34,6 +36,12 @@ def main():
     elif a.command=="detour-release":
         from .detour import release
         print(release(a.db,a.id))
+    elif a.command=="ocr-register":
+        from .ocr import register
+        print(register(a.db,a.input))
+    elif a.command=="ocr-preview":
+        from .ocr import preview
+        print(preview(a.db,a.id))
     else:
         work=Path(a.workdir or tempfile.mkdtemp(prefix="source-case-"));work.mkdir(parents=True,exist_ok=True)
         fixture=Path(__file__).resolve().parent.parent/"fixtures"
