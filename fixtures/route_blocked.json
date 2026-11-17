@@ -1,0 +1,18 @@
+{
+  "case_id": "journey-blocked",
+  "source_id": "road-1",
+  "at": "2026-06-01T08:00:00Z",
+  "facts": {
+    "route": [
+      "R1"
+    ],
+    "flow": 40,
+    "detour": {
+      "id": "D1",
+      "capacity": 20
+    },
+    "audiences": [
+      "bus"
+    ]
+  }
+}

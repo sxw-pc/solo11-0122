@@ -1,0 +1,22 @@
+{
+  "case_id": "journey-1",
+  "at": "2026-06-01T09:30:00Z",
+  "receipts": [
+    {
+      "event_key": "bus-1",
+      "target": "bus",
+      "at": "2026-06-01T09:00:00Z",
+      "version": 1,
+      "amount": 1,
+      "route_id": "D1"
+    },
+    {
+      "event_key": "ped-1",
+      "target": "pedestrian",
+      "at": "2026-06-01T09:10:00Z",
+      "version": 1,
+      "amount": 1,
+      "route_id": "D1"
+    }
+  ]
+}
