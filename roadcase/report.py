@@ -4,6 +4,35 @@ from pathlib import Path
 from .store import connect
 from .policy import TABLES,EXTRA_TABLES
 
+def _sign_section(db):
+    if not db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='sign_plan'").fetchone():
+        return {"plans": [], "verifications": []}
+    plans = []
+    for row in db.execute("SELECT * FROM sign_plan ORDER BY created_at,plan_id"):
+        certificates = [json.loads(item["body_json"]) for item in db.execute(
+            "SELECT body_json FROM sign_lane_certificate WHERE plan_id=? ORDER BY lane_id",
+            (row["plan_id"],))]
+        plans.append({
+            "plan_id": row["plan_id"], "survey_id": row["survey_id"],
+            "sign_id": row["sign_id"], "class_id": row["class_id"],
+            "survey_digest": row["survey_digest"],
+            "work": {"source_id": row["work_source_id"], "revision": row["work_revision"],
+                     "state": row["work_state"]},
+            "lanes": json.loads(row["lanes_json"]),
+            "coordinate_system": row["coordinate_system"],
+            "contract": json.loads(row["contract_json"]),
+            "state": row["state"],
+            "covered_lanes": json.loads(row["covered_lanes_json"]),
+            "certificates": certificates,
+        })
+    verifications = [dict(item) for item in db.execute(
+        "SELECT verify_id,plan_id,ok,mismatches_json,created_at FROM sign_verify_record "
+        "ORDER BY created_at,verify_id")]
+    for item in verifications:
+        item["ok"] = bool(item["ok"])
+        item["mismatches"] = json.loads(item.pop("mismatches_json"))
+    return {"plans": plans, "verifications": verifications}
+
 def report(db_path,out=None):
     db=connect(db_path);t=TABLES
     notices=[dict(x) for x in db.execute(f"SELECT * FROM {t['notice']} ORDER BY id")]
@@ -26,9 +55,10 @@ def report(db_path,out=None):
     conflicts=[dict(x) for x in db.execute("SELECT source_id,revision,digest,reason FROM source_conflict ORDER BY id")]
     auxiliary={name:[dict(x) for x in db.execute(f"SELECT * FROM {name} ORDER BY 1")]
                for name in EXTRA_TABLES if db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?",(name,)).fetchone()}
+    sign_section=_sign_section(db)
     db.close()
     result={"notices":notices,"cases":cases,"source_evidence":evidence,"source_conflicts":conflicts,
-            "auxiliary":auxiliary}
+            "auxiliary":auxiliary,"sign_decisions":sign_section}
     if out:
         target=Path(out);target.parent.mkdir(parents=True,exist_ok=True)
         temp=target.with_name(target.name+".pending")

@@ -1,0 +1,127 @@
+{
+  "survey_id": "sign-S1-tricky",
+  "work": {
+    "source_id": "road-1",
+    "revision": 1,
+    "segment": "R1"
+  },
+  "coordinate_system": "synthetic-local-metres",
+  "detour_id": "D1",
+  "approaches": [
+    {
+      "id": "lane-bent",
+      "polyline": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          40.0,
+          0.0
+        ],
+        [
+          40.0,
+          0.0
+        ],
+        [
+          40.0,
+          40.0
+        ],
+        [
+          100.0,
+          40.0
+        ]
+      ],
+      "decision_point": [
+        100.0,
+        40.0
+      ],
+      "eye_height": 1.5
+    },
+    {
+      "id": "lane-straight",
+      "polyline": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          100.0,
+          0.0
+        ]
+      ],
+      "decision_point": [
+        100.0,
+        0.0
+      ],
+      "eye_height": 1.5
+    }
+  ],
+  "signs": [
+    {
+      "id": "detour-bent",
+      "position": [
+        100.0,
+        42.0
+      ],
+      "facing": [
+        -1.0,
+        0.0
+      ],
+      "height": 3.0,
+      "classes": [
+        {
+          "id": "static-board",
+          "min_warning_distance": 30.0,
+          "half_fov_degrees": 45.0
+        },
+        {
+          "id": "led-message-board",
+          "min_warning_distance": 10.0,
+          "half_fov_degrees": 45.0
+        }
+      ]
+    },
+    {
+      "id": "detour-narrow",
+      "position": [
+        80.0,
+        3.0
+      ],
+      "facing": [
+        -1.0,
+        0.0
+      ],
+      "height": 3.0,
+      "classes": [
+        {
+          "id": "static-board",
+          "min_warning_distance": 20.0,
+          "half_fov_degrees": 45.0
+        }
+      ]
+    }
+  ],
+  "obstacles": [
+    {
+      "id": "narrow-post",
+      "box": [
+        60.0,
+        1.0,
+        60.2,
+        2.0
+      ],
+      "height": 4.0
+    },
+    {
+      "id": "low-rail",
+      "box": [
+        20.0,
+        0.5,
+        25.0,
+        1.5
+      ],
+      "height": 1.0
+    }
+  ]
+}

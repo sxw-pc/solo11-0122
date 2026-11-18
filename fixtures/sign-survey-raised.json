@@ -1,0 +1,96 @@
+{
+  "survey_id": "sign-S1-raised",
+  "work": {
+    "source_id": "road-1",
+    "revision": 1,
+    "segment": "R1"
+  },
+  "coordinate_system": "synthetic-local-metres",
+  "detour_id": "D1",
+  "approaches": [
+    {
+      "id": "lane-center",
+      "polyline": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          100.0,
+          0.0
+        ]
+      ],
+      "decision_point": [
+        100.0,
+        0.0
+      ],
+      "eye_height": 1.2
+    },
+    {
+      "id": "lane-south",
+      "polyline": [
+        [
+          0.0,
+          -6.0
+        ],
+        [
+          100.0,
+          -6.0
+        ]
+      ],
+      "decision_point": [
+        100.0,
+        -6.0
+      ],
+      "eye_height": 1.2
+    }
+  ],
+  "signs": [
+    {
+      "id": "detour-D1",
+      "position": [
+        70.0,
+        2.0
+      ],
+      "facing": [
+        -1.0,
+        0.0
+      ],
+      "height": 4.0,
+      "classes": [
+        {
+          "id": "static-board",
+          "min_warning_distance": 60.0,
+          "half_fov_degrees": 45.0
+        },
+        {
+          "id": "led-message-board",
+          "min_warning_distance": 30.0,
+          "half_fov_degrees": 45.0
+        }
+      ]
+    }
+  ],
+  "obstacles": [
+    {
+      "id": "parked-truck",
+      "box": [
+        65.0,
+        1.5,
+        68.0,
+        3.0
+      ],
+      "height": 3.0
+    },
+    {
+      "id": "low-barrier",
+      "box": [
+        30.0,
+        0.5,
+        35.0,
+        1.5
+      ],
+      "height": 0.5
+    }
+  ]
+}
