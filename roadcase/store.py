@@ -38,6 +38,21 @@ def connect(path):
       event_key TEXT PRIMARY KEY, obligation_id TEXT NOT NULL, at TEXT NOT NULL,
       version INTEGER, amount INTEGER NOT NULL, payload TEXT NOT NULL,
       digest TEXT NOT NULL, verdict TEXT NOT NULL, reason TEXT NOT NULL);
+    CREATE TABLE IF NOT EXISTS excavation_plan(
+      excavation_id TEXT PRIMARY KEY,
+      utility_plan_id TEXT NOT NULL,
+      alignment_id TEXT NOT NULL,
+      input TEXT NOT NULL,
+      digest TEXT NOT NULL,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+    CREATE TABLE IF NOT EXISTS excavation_decision(
+      id INTEGER PRIMARY KEY,
+      excavation_id TEXT NOT NULL REFERENCES excavation_plan(excavation_id),
+      seq INTEGER NOT NULL,
+      decided_at TEXT NOT NULL,
+      state TEXT NOT NULL,
+      detail TEXT NOT NULL,
+      UNIQUE(excavation_id,seq));
     """)
     return db
 

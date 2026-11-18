@@ -1,0 +1,10 @@
+{
+  "excavation_id": "exc-1",
+  "utility_plan_id": "excavation-E1",
+  "alignment_id": "original",
+  "methods": ["machine", "vacuum"],
+  "survey_sources": ["excavation-E1"],
+  "work": {"source_id": "road-1", "revision": 1},
+  "coordinate_system": "synthetic-local-metres",
+  "evidence_cutoff": "2099-01-01T00:00:00Z"
+}

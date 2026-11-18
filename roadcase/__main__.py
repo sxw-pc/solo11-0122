@@ -14,6 +14,8 @@ def main():
     for name in ("adopt","assess","settle"):
         cmd=sub.add_parser(name);cmd.add_argument("--db",required=True);cmd.add_argument("--input",required=True)
     util_cmd=sub.add_parser("utility-record");util_cmd.add_argument("--db",required=True);util_cmd.add_argument("--input",required=True)
+    for name in ("excavation-plan","excavation-decide","excavation-verify"):
+        cmd=sub.add_parser(name);cmd.add_argument("--db",required=True);cmd.add_argument("--input",required=True)
     r=sub.add_parser("report");r.add_argument("--db",required=True);r.add_argument("--out")
     d=sub.add_parser("demo");d.add_argument("--workdir")
     dc=sub.add_parser("detour-config");dc.add_argument("--db",required=True);dc.add_argument("--id",required=True);dc.add_argument("--segment",required=True);dc.add_argument("--capacity",required=True,type=int)
@@ -28,6 +30,15 @@ def main():
     elif a.command=="utility-record":
         from .utilities import record
         print(record(a.db,a.input))
+    elif a.command=="excavation-plan":
+        from .utilities import plan_excavation
+        print(json.dumps(plan_excavation(a.db,a.input),ensure_ascii=False))
+    elif a.command=="excavation-decide":
+        from .utilities import decide_excavation
+        print(json.dumps(decide_excavation(a.db,a.input),ensure_ascii=False))
+    elif a.command=="excavation-verify":
+        from .utilities import verify_excavation
+        print(json.dumps(verify_excavation(a.db,a.input),ensure_ascii=False))
     elif a.command=="report":print(json.dumps(report(a.db,a.out),ensure_ascii=False))
     elif a.command=="detour-config":
         from .detour import configure
@@ -46,6 +57,11 @@ def main():
         print(adopt(db,fixture/config["adopt"]))
         print(assess(db,fixture/config["assess"]))
         print(settle(db,fixture/config["settle"]))
+        from .utilities import record as record_utility,plan_excavation,decide_excavation,verify_excavation
+        print(record_utility(db,fixture/"utility-plan.json"))
+        print(json.dumps(plan_excavation(db,fixture/"excavation-plan.json"),ensure_ascii=False))
+        print(json.dumps(decide_excavation(db,fixture/"excavation-decide.json"),ensure_ascii=False))
+        print(json.dumps(verify_excavation(db,fixture/"excavation-verify.json"),ensure_ascii=False))
         print(work/"report.json")
         report(db,work/"report.json")
 if __name__=="__main__":main()
