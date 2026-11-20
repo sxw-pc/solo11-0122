@@ -4,7 +4,7 @@ from .source import utc
 TABLES={"notice":"work_notice","revision":"work_revision","case":"journey_case",
 "assessment":"route_assessment","obligation":"notice_obligation","receipt":"delivery_receipt"}
 DEMO={"adopt":"road_normal.json","assess":"route_normal.json","settle":"notice_normal.json"}
-EXTRA_TABLES=["detour_pool","detour_hold"]
+EXTRA_TABLES=["detour_pool","detour_hold","spoil_seal","spoil_result"]
 def validate_notice(doc):
     p=doc["payload"]
     if p.get("authority") not in ("city","district"):return "invalid","unknown_authority"

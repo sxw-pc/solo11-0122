@@ -38,6 +38,16 @@ def connect(path):
       event_key TEXT PRIMARY KEY, obligation_id TEXT NOT NULL, at TEXT NOT NULL,
       version INTEGER, amount INTEGER NOT NULL, payload TEXT NOT NULL,
       digest TEXT NOT NULL, verdict TEXT NOT NULL, reason TEXT NOT NULL);
+    CREATE TABLE IF NOT EXISTS spoil_seal(
+      id TEXT PRIMARY KEY, lot_id TEXT NOT NULL, contract TEXT NOT NULL,
+      source_id TEXT NOT NULL, source_revision INTEGER NOT NULL,
+      ticket_count INTEGER NOT NULL, snapshot TEXT NOT NULL, raw TEXT NOT NULL,
+      digest TEXT NOT NULL, state TEXT NOT NULL DEFAULT 'active',
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+    CREATE TABLE IF NOT EXISTS spoil_result(
+      seal_id TEXT PRIMARY KEY, lot_id TEXT NOT NULL, contract TEXT NOT NULL,
+      verdict TEXT NOT NULL, detail TEXT NOT NULL, digest TEXT NOT NULL,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
     """)
     return db
 

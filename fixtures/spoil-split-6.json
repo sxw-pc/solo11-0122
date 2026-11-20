@@ -1,0 +1,1 @@
+{"id":"sm-6","lot_id":"lot-R1-02","at":"2026-06-02T11:00:00Z","from_node":"STOCK-F","to_node":"YARD-B","gross_kg":8000,"tare_kg":2000,"dry_fraction":1.0,"uncertainty_kg":100,"parents":["sm-4","sm-5"]}

@@ -61,4 +61,6 @@ def _stale(db,source_id):
                (source_id,))
     if db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='detour_hold'").fetchone():
         db.execute("UPDATE detour_hold SET state='stale' WHERE source_id=? AND state IN ('reserved','waiting')",(source_id,))
+    if db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='spoil_seal'").fetchone():
+        db.execute("UPDATE spoil_seal SET state='stale' WHERE source_id=? AND state='active'",(source_id,))
 

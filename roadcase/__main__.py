@@ -21,6 +21,9 @@ def main():
     for name in ("spoil-open","spoil-ticket"):
         cmd=sub.add_parser(name);cmd.add_argument("--db",required=True);cmd.add_argument("--input",required=True)
     ss=sub.add_parser("spoil-summary");ss.add_argument("--db",required=True);ss.add_argument("--id",required=True)
+    sl=sub.add_parser("spoil-seal");sl.add_argument("--db",required=True);sl.add_argument("--input",required=True)
+    for name in ("spoil-verify","spoil-result"):
+        cmd=sub.add_parser(name);cmd.add_argument("--db",required=True);cmd.add_argument("--id",required=True)
     a=p.parse_args()
     if a.command=="init":
         db=connect(a.db);db.close();print(a.db)
@@ -46,6 +49,15 @@ def main():
     elif a.command=="spoil-summary":
         from .spoil import summary
         print(summary(a.db,a.id))
+    elif a.command=="spoil-seal":
+        from .spoil import seal
+        print(json.dumps(seal(a.db,a.input),ensure_ascii=False))
+    elif a.command=="spoil-verify":
+        from .spoil import verify
+        print(json.dumps(verify(a.db,a.id),ensure_ascii=False))
+    elif a.command=="spoil-result":
+        from .spoil import result
+        print(json.dumps(result(a.db,a.id),ensure_ascii=False))
     else:
         work=Path(a.workdir or tempfile.mkdtemp(prefix="source-case-"));work.mkdir(parents=True,exist_ok=True)
         fixture=Path(__file__).resolve().parent.parent/"fixtures"
