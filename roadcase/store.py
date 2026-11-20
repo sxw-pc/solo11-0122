@@ -38,6 +38,16 @@ def connect(path):
       event_key TEXT PRIMARY KEY, obligation_id TEXT NOT NULL, at TEXT NOT NULL,
       version INTEGER, amount INTEGER NOT NULL, payload TEXT NOT NULL,
       digest TEXT NOT NULL, verdict TEXT NOT NULL, reason TEXT NOT NULL);
+    CREATE TABLE IF NOT EXISTS ocr_scan(
+      id TEXT PRIMARY KEY, token_digest TEXT NOT NULL, raw TEXT NOT NULL);
+    CREATE TABLE IF NOT EXISTS ocr_extract(
+      id TEXT PRIMARY KEY, scan_id TEXT NOT NULL, segment TEXT NOT NULL,
+      policy TEXT NOT NULL, layout_version INTEGER NOT NULL,
+      scan_digest TEXT NOT NULL, status TEXT NOT NULL, detail TEXT NOT NULL,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+    CREATE TABLE IF NOT EXISTS ocr_export(
+      extract_id TEXT PRIMARY KEY, digest TEXT NOT NULL, doc TEXT NOT NULL,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
     """)
     return db
 

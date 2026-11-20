@@ -26,5 +26,5 @@ python -m pytest -q
 
 ## 本地 OCR 词框采集
 
-`ocr-register` 冻结一份本地 OCR 词框、候选文本与置信度，`ocr-preview` 当前只按页和坐标拼接最高置信词，不提取结构化工区公告。`fixtures/ocr-bulletin.json` 是跨页表格及歧义数字的可运行样例。
+`ocr-register` 冻结一份本地 OCR 词框、候选文本与置信度，`ocr-preview` 只按页和坐标拼接最高置信词，不提取结构化公告。结构化提取走 `ocr-extract --id <scan> --segment <路段> --policy <strict_literal|corroborated>`：先按词框几何划分表头、行、列、跨行续接与页眉/页脚角色（一个词框的一个候选只供一个字段），再联合来源编号/修订/时点、表行车道数、跨页独立说明与机关/通行能力约束求解，要求日期有效、`0≤封闭≤总车道`、`总车道=封闭+剩余`、同路段跨页重复事实一致；求解按行局部裁剪，不枚举全扫描候选的笛卡尔积。两种放行合同：`strict_literal` 要求每个必需字段由单个直接标注且置信度≥0.9 的词框给出、同页无竞争候选，否则 review；`corroborated` 允许低置信候选，但只有归属、跨页说明与表格算术共同留下唯一公告才 ready_for_adoption——无解为 conflict，多解为 review 并返回两份不同解析见证。每次提取落库为不可变 extract_revision；`ocr-export` 仅对 ready_for_adoption 导出可供 `adopt` 读取的 JSON（附 provenance 摘要，不改写既有 source_event），`ocr-verify` 从冻结词框重算结构化候选与唯一性，词框、格子归属或导出 JSON 变动都会使旧 ready 结论失效；同一 scan 的新识别版本另建提取，不覆盖旧版本。样例见 `fixtures/ocr-bulletin.json`（双合同分歧）、`ocr-bulletin-ambiguous.json`（去掉独立说明后的多解）、`ocr-bulletin-conflict.json`（说明与表格矛盾）与 `ocr-bulletin-split.json`（三页错列、跨行续接与页脚）。
 

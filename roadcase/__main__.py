@@ -20,6 +20,9 @@ def main():
     dl=sub.add_parser("detour-release");dl.add_argument("--db",required=True);dl.add_argument("--id",required=True)
     oi=sub.add_parser("ocr-register");oi.add_argument("--db",required=True);oi.add_argument("--input",required=True)
     op=sub.add_parser("ocr-preview");op.add_argument("--db",required=True);op.add_argument("--id",required=True)
+    oe=sub.add_parser("ocr-extract");oe.add_argument("--db",required=True);oe.add_argument("--id",required=True);oe.add_argument("--segment",required=True);oe.add_argument("--policy",required=True,choices=["strict_literal","corroborated"])
+    ox=sub.add_parser("ocr-export");ox.add_argument("--db",required=True);ox.add_argument("--id",required=True);ox.add_argument("--out")
+    ov=sub.add_parser("ocr-verify");ov.add_argument("--db",required=True);ov.add_argument("--id",required=True);ov.add_argument("--export")
     a=p.parse_args()
     if a.command=="init":
         db=connect(a.db);db.close();print(a.db)
@@ -42,6 +45,15 @@ def main():
     elif a.command=="ocr-preview":
         from .ocr import preview
         print(preview(a.db,a.id))
+    elif a.command=="ocr-extract":
+        from .ocr import extract
+        print(json.dumps(extract(a.db,a.id,a.segment,a.policy),ensure_ascii=False))
+    elif a.command=="ocr-export":
+        from .ocr import export
+        print(json.dumps(export(a.db,a.id,a.out),ensure_ascii=False))
+    elif a.command=="ocr-verify":
+        from .ocr import verify
+        print(json.dumps(verify(a.db,a.id,a.export),ensure_ascii=False))
     else:
         work=Path(a.workdir or tempfile.mkdtemp(prefix="source-case-"));work.mkdir(parents=True,exist_ok=True)
         fixture=Path(__file__).resolve().parent.parent/"fixtures"
