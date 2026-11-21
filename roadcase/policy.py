@@ -4,12 +4,47 @@ from .source import utc
 TABLES={"notice":"work_notice","revision":"work_revision","case":"journey_case",
 "assessment":"route_assessment","obligation":"notice_obligation","receipt":"delivery_receipt"}
 DEMO={"adopt":"road_normal.json","assess":"route_normal.json","settle":"notice_normal.json"}
+
+# A certificate must state how simultaneous public orders combine.  The relation is
+# part of the certificate identity and can never be supplied later by a report view.
+RELATIONS=("independent_orders","superseding_city")
+
+def evidence_kind(payload):
+    """Classify the lane evidence carried by a close notice.
+
+    ``exact_lanes`` names the lanes an order actually closes.  ``count_within_scope``
+    states only how many lanes inside the authority's scope are closed.  Legacy
+    payloads only carry ``lanes_closed`` and therefore cannot be attributed to lanes.
+    """
+    has_exact="exact_lanes" in payload
+    has_count="count_within_scope" in payload
+    if has_exact and has_count:return "ambiguous"
+    if has_exact:return "exact"
+    if has_count:return "count"
+    if "lanes_closed" in payload:return "legacy"
+    return "none"
+
+def _non_negative_int(value):
+    return isinstance(value,int) and not isinstance(value,bool) and value>=0
+
 def validate_notice(doc):
     p=doc["payload"]
     if p.get("authority") not in ("city","district"):return "invalid","unknown_authority"
     if p.get("action")=="cancel":return "cancelled","work_permit_cancelled"
-    if p.get("action")!="close" or not p.get("segment") or p.get("lanes_closed",0)<0:
+    if p.get("action")!="close" or not p.get("segment"):
         return "invalid","invalid_work_zone"
+    kind=evidence_kind(p)
+    if kind=="ambiguous":return "invalid","ambiguous_evidence"
+    if kind=="exact":
+        values=p["exact_lanes"]
+        if not isinstance(values,list) or any(not isinstance(x,str) or not x for x in values):
+            return "invalid","invalid_exact_lanes"
+    elif kind=="count":
+        if not _non_negative_int(p["count_within_scope"]):
+            return "invalid","invalid_count_within_scope"
+    elif kind=="legacy":
+        if not _non_negative_int(p.get("lanes_closed",0)):
+            return "invalid","invalid_work_zone"
     return "active","valid_work_zone"
 def assess_case(doc,p):
     f=doc["facts"];route=f.get("route",[]);segment=p["segment"]

@@ -40,6 +40,23 @@ def connect(path):
       event_key TEXT PRIMARY KEY, obligation_id TEXT NOT NULL, at TEXT NOT NULL,
       version INTEGER, amount INTEGER NOT NULL, payload TEXT NOT NULL,
       digest TEXT NOT NULL, verdict TEXT NOT NULL, reason TEXT NOT NULL);
+    CREATE TABLE IF NOT EXISTS occupancy_certificate(
+      id TEXT PRIMARY KEY, registry_id TEXT NOT NULL, registry_digest TEXT NOT NULL,
+      relation TEXT NOT NULL, from_at TEXT NOT NULL, until_at TEXT NOT NULL,
+      digest TEXT NOT NULL, status TEXT NOT NULL, status_reason TEXT,
+      body TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+    CREATE TABLE IF NOT EXISTS occupancy_source(
+      certificate_id TEXT NOT NULL, source_id TEXT NOT NULL, revision INTEGER NOT NULL,
+      digest TEXT NOT NULL, raw_digest TEXT NOT NULL, payload_digest TEXT NOT NULL,
+      raw TEXT NOT NULL, payload TEXT NOT NULL,
+      admissibility TEXT NOT NULL, reason TEXT,
+      PRIMARY KEY(certificate_id,source_id,revision));
+    CREATE TABLE IF NOT EXISTS occupancy_segment(
+      certificate_id TEXT NOT NULL, seq INTEGER NOT NULL,
+      from_at TEXT NOT NULL, until_at TEXT NOT NULL, state TEXT NOT NULL,
+      closed_min INTEGER, closed_max INTEGER,
+      lanes TEXT NOT NULL, feasible TEXT NOT NULL, basis TEXT NOT NULL,
+      PRIMARY KEY(certificate_id,seq));
     """)
     return db
 
